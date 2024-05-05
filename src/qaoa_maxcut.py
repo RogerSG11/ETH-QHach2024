@@ -104,13 +104,15 @@ def run_qaoa_maxcut(graph, num_layers: int):
     print("Optimal parameters = ", optimal_parameters)
 
     # Sample the circuit using the optimized parameters
-    counts = cudaq.sample(kernel_qaoa, num_layers, optimal_parameters)
-    print(counts)
+    counts = cudaq.sample(kernel_qaoa, num_layers, optimal_parameters, shots_count=10000)
+    #print(counts)
+    print(counts.most_probable())
+
+    return 0
 
 if __name__ == "__main__":
     # Test
-    edges = [(0,1,3), (0,3,3), (1,2,1), (2,3,1)]
-    edges = [(0, 1, 1), (1, 2, 1), (2, 3, 1), (3, 0, 1), (3, 4, 1), (4, 0, 1)]
+    edges = [(0,1,1), (0,2,2), (0,3,1), (1,2,1), (1,3,2), (2,3,1)]
     graph = nx.Graph()
     graph.add_weighted_edges_from(edges)
     run_qaoa_maxcut(graph, 2)
