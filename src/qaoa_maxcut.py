@@ -29,7 +29,6 @@ def build_kernel(graph):
     def kernel_qaoa(num_layers: int, thetas: List[float]):
         """QAOA ansatz for Max-Cut"""
         qvector = cudaq.qvector(num_qubits)
-        return
         # Create superposition
         h(qvector)
         # Loop over the layers
@@ -72,8 +71,6 @@ Args:
     - num_qubits: number of qubits (i.e. number of nodes)
     - num_layers: number of layers for QAOA (arbitrary)
     - hamilatonian: hamiltonian (from get_hamiltonian)
-
-TODO: return results (need to figure out what output we want)
 '''
 def run_qaoa_maxcut(graph, num_layers: int):
     # QAOA settings
@@ -82,6 +79,7 @@ def run_qaoa_maxcut(graph, num_layers: int):
 
     # Construct hamiltonian
     hamiltonian = get_hamiltonian(graph)
+    print(hamiltonian)
 
     # Specify the optimizer and its initial parameters.
     #cudaq.set_random_seed(12)
@@ -105,7 +103,7 @@ def run_qaoa_maxcut(graph, num_layers: int):
 
     # Sample the circuit using the optimized parameters
     counts = cudaq.sample(kernel_qaoa, num_layers, optimal_parameters, shots_count=10000)
-    #print(counts)
+    print(counts)
     print(counts.most_probable())
 
     return 0
@@ -115,4 +113,4 @@ if __name__ == "__main__":
     edges = [(0,1,1), (0,2,2), (0,3,1), (1,2,1), (1,3,2), (2,3,1)]
     graph = nx.Graph()
     graph.add_weighted_edges_from(edges)
-    run_qaoa_maxcut(graph, 2)
+    run_qaoa_maxcut(graph, 8)
