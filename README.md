@@ -1,4 +1,6 @@
-ETH-QHACK2024: NVIDIA CHALLENGE
+# ETH-QHACK2024: NVIDIA CHALLENGE
+
+## Team SovrapponiMi & Platyrinchos
 
 Sources for the solution, separated by steps, are in `src`:
 - Clustering: reduce CVRP to multiple instances of TSP by clustering the nodes
