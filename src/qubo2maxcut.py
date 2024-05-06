@@ -27,7 +27,7 @@ def qubo2maxcut(dists):
     # QUBO parameters 
     # A > B * N * max(distance)
     B = 1
-    A = 2*(B * N * max_dist)
+    A = (B * N * max_dist)
 
     # QUBO coefficients
     q = np.zeros((N*N, N*N))
@@ -35,22 +35,21 @@ def qubo2maxcut(dists):
         x = i*N + k
         y = j*N + l
         if x == y:
-            # Ignore diagonal (no edge)
-            continue
-            #q[x,y] -= 4*A
+            q[x,y] -= 4*A
         if i == j:
             q[x,y] += A
         if k == l:
             q[x,y] += A
         if k+1 == l:
             q[x,y] += B*dists[i,j]
-
+    print(q)
+    
     # MaxCut weights
     graph = nx.Graph()
     for j in range(N*N):
         # Remove diagonal from the sum!
-        a = np.sum(q[:,j]) - q[j,j]
-        b = np.sum(q[j,:]) - q[j,j]
+        a = np.sum(q[:,j])
+        b = np.sum(q[j,:])
         graph.add_edge(0, j+1, weight=a+b)
     for i in range(N*N):
         for j in range(0, i):
@@ -76,6 +75,6 @@ if __name__ == "__main__":
     matrix = np.ones((2,2))
 
     graph = qubo2maxcut(matrix)
-    print(graph.edges(data="weight"))
-    res = qaoa_maxcut.run_qaoa_maxcut(graph, 4)
+    #print(graph.edges(data="weight"))
+    res = qaoa_maxcut.run_qaoa_maxcut(graph, 8)
     print(res)

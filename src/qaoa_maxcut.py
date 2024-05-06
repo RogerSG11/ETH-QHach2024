@@ -103,7 +103,7 @@ def run_qaoa_maxcut(graph, num_layers: int):
 
     # Sample the circuit using the optimized parameters
     counts = cudaq.sample(kernel_qaoa, num_layers, optimal_parameters, shots_count=10000)
-    print(counts)
+    #print(counts)
     print(counts.most_probable())
 
     return 0
